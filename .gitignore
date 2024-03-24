@@ -131,3 +131,6 @@ dist
 
 # VSCode
 .code-workspace
+
+# firebase
+firebase_config.json

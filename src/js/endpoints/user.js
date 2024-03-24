@@ -7,15 +7,18 @@ const logger = new Logger(__filename)
 
 // database
 const { Database } = require('../handlers/database')
+const { getDatabase } = require('firebase/database')
 
 class User {
-	constructor(userId = null, type = 'id') {
+	constructor(databaseObject = null, userId = null, type = 'id') {
+		this.db = databaseObject
 		this.userId = userId
 		this.type = type
 	}
 
-	execute(user_id, req, res) {
-        console.log('/users')
+	execute(req, res) {
+		console.log(this.userId)
+		this.db.query_firebase(userId, res)
 	}
 }
 
