@@ -39,26 +39,47 @@ console.log(`----Starting endpoints: ${Date(Date.now())}----`) // consol.log bec
 // app.use(myMiddleware);
 
 // users
-app.get('/users/list', (req, res) => {
-    console.log(req)
-    new endpoints.User.User(databaseObject = db, type = 'list').execute(req, res)
+app.get('/users/:type/list', (req, res) => {
+	logger.info(`Recieving call to endpoint: /users/${req.params.type}/list`)
+    const user = new endpoints.User.User(query_type = 'list', database_object = db, collection = 'users', type = req.params.type)
+    user.execute(req, res)
 })
-app.post('/users/register/:userId', (req, res) => {
-    new endpoints.User.User(databaseObject = db, userId = req.params.userId, type = 'register').execute(req, res)
+app.post('/users/register/:type', (req, res) => {
+	logger.info(`Recieving call to endpoint: /users/register/${req.params.type}`)
+    const user = new endpoints.User.User(query_type = 'register', database_object = db, collection = 'users', type = req.params.type, data = data)
+    user.execute(req, res)
 })
-app.get('/users/:userId', (req, res) => {
-    new endpoints.User.User(databaseObject = db, userId = req.params.userId).execute(req, res)
+app.put('/users/update/:type/:id', (req, res) => {
+	logger.info(`Recieving call to endpoint: /users/update/${req.params.type}/${req.params.id}`)
+    const user = new endpoints.User.User(query_type = 'update', database_object = db, collection = 'users', type = req.params.type, data = data)
+    user.execute(req, res)
+})
+app.get('/users/:type/:id', (req, res) => {
+	logger.info(`Recieving call to endpoint: /users/${req.params.type}/${req.params.id}`)
+    const user = new endpoints.User.User(query_type = 'list', database_object = db,  collection = 'users', type = req.params.type, user_id = req.params.id)
+    user.execute(req, res)
 })
 
 // animals
-app.get('/animal/list', (req, res) => {
-    new endpoints.Animal.Animal(type = 'list').execute(req, res)
+app.get('/animals/:type/list', (req, res) => {
+	logger.info(`Recieving call to endpoint: /users/${req.params.type}/list`)
+    const animal = new endpoints.Animal.Animal(query_type = 'list', database_object = db, collection = 'animals', type = req.params.type)
+    animal.execute(req, res)
 })
-app.post('/animal/register/:animaId', (req, res) => {
-    new endpoints.Animal.Animal(animaId = req.params.animaId, type = 'register').execute(req, res)
+app.post('/animals/register/:type', (req, res) => {
+	logger.info(`Recieving call to endpoint: /users/register/${req.params.type}`)
+    const animal = new endpoints.Animal.Animal(query_type = 'register', database_object = db, collection = 'animals', type = req.params.type, data = data)
+    animal.execute(req, res)
 })
-app.get('/animal/:animaId', (req, res) => {
-    new endpoints.Animal.Animal(animaId = req.params.animaId).execute(req, res)
+app.put('/animals/update/:type/:id', (req, res) => {
+	logger.info(`Recieving call to endpoint: /users/update/${req.params.type}/${req.params.id}`)
+    const animal = new endpoints.Animal.Animal(query_type = 'update', database_object = db, collection = 'animals', type = req.params.type, data = data)
+    animal.execute(req, res)
+})
+app.get('/animals/:type/:id', (req, res) => {
+	logger.info(`Recieving call to endpoint: /users/${req.params.type}/${req.params.id}`)
+    const animal = new endpoints.Animal.Animal(query_type = 'list', database_object = db,  collection = 'animals', type = req.params.type, user_id = req.params.id)
+    animal.execute(req, res)
 })
 
 // daily-facts

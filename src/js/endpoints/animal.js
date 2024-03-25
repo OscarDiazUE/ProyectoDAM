@@ -5,17 +5,12 @@ dotenv.config()
 const { Logger } = require('../logger/logger')
 const logger = new Logger(__filename)
 
-// database
-const { Database } = require('../handlers/database')
+// Parent class
+const { Base } = require('../handlers/base')
 
-class Animal {
-	constructor(animalId = null, type = 'id') {
-		this.animalId = animalId
-		this.type = type
-	}
-
-	execute(req, res) {
-        console.log('/animals')
+class Animal extends Base{
+	constructor(query_type, database_object, collection, type, id, data){
+		super(query_type, database_object, collection, type, id, data)	
 	}
 }
 

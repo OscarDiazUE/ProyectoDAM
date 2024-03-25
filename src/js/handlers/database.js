@@ -8,7 +8,7 @@ const firebaseConfig = require('../../../firebase_config.json');
 
 // Condifure SDKs
 const { initializeApp } = require('firebase/app')
-const { getDatabase, ref, onValue, child, get }= require('firebase/database')
+const { getDatabase, ref, child, get }= require('firebase/database')
 
 // logger
 const { Logger } = require('../logger/logger')
@@ -21,39 +21,58 @@ class Database {
 		this.db = null;
 	}
 
-	sql(){
+	initialize_sql(){
 		this.sql_db = 'ConnectionString'
 	}
 
-	firebase(){
-
+	initialize_firebase(){
 		// Initialize Firebase
 		this.app = initializeApp(firebaseConfig);
 
 		this.firebase_db = getDatabase();
 	}
 
-	query_firebase(userId, res){
-		// console.log(postId)
-		this.dbRef = ref(this.firebase_db, `test`);
-		console.log(this.dbRef)
-		get(child(this.dbRef, `${userId}`)).then((snapshot) => {
+	query_firebase(req, res, query){
+		this.dbRef = ref(this.firebase_db);
+		
+		get(child(this.dbRef, query)).then((snapshot) => {
+			
 		  if (snapshot.exists()) {
-			console.log(snapshot.val());
-			res.send(snapshot.val())
+			logger.info(`Query ${query} succeeded, returning data`)
+			res.send({
+				code: 200,
+				message: 'Ok',
+				data: snapshot.val()
+			})
+			// return 200, 'Ok', snapshot.val()
 		  } else {
-			console.log("No data available");
+			logger.error('No available data')
+			res.send({
+				code: 404,
+				message: 'No available data',
+				data: {}
+			})
 		  }
 		}).catch((error) => {
-		  console.error(error);
+			logger.error(error)
+			res.send({
+				code: 500,
+				message: error,
+				data: {}
+			})
 		});
+	}
 
-		// Attach an asynchronous callback to read the data at our posts reference
-		onValue
+	post_firebase(req, res, query, data){
+
+	}
+
+	update_firebase(req, res, query, data){
+
 	}
 
 	execute(){
-		this.firebase()
+		this.initialize_firebase()
 	}
 }
 
